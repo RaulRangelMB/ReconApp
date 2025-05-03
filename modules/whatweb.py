@@ -10,13 +10,22 @@ def whatweb_scan():
     print("2. WSL (Windows Subsystem for Linux)")
     option = input(colors.fg.cyan + "Enter your choice: " + colors.fg.blue)
 
-    command = ['whatweb', target] if option == '1' else ['wsl', 'whatweb', target]
+    print(colors.fg.cyan + "\nDo you want verbose output?")
+    print("1. Yes")
+    print("2. No")
+    verbose = input(colors.fg.cyan + "Enter your choice: " + colors.fg.blue)
+
+    if verbose == '1':
+        command = ['whatweb', '-v', target] if option == '1' else ['wsl', 'whatweb', '-v', target]
+    else:
+        command = ['whatweb', target] if option == '1' else ['wsl', 'whatweb', target]
+
     print(colors.fg.yellow + f"\nStarting WhatWeb scan on {target}...\n" + colors.reset)
 
     try:
         result = subprocess.run(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
-        print(colors.fg.green + "\nScan completed:\n" + colors.reset)
-        print(colors.fg.white + result.stdout + colors.reset)
+        print(colors.fg.green + "\n============= RESULTS =============")
+        print(colors.fg.yellow + result.stdout + colors.reset)
 
         if result.stderr:
             print(colors.fg.red + "\nSome warnings/errors occurred:\n" + result.stderr + colors.reset)

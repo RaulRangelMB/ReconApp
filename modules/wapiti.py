@@ -24,7 +24,7 @@ def wapiti_scan():
     ran = False
 
     try:
-        print(colors.fg.yellow + f"\nStarting Wapiti scan. This may take a few minutes... Output will be saved in {output_file}\n" + colors.reset)
+        print(colors.fg.yellow + f"\nStarting Wapiti scan. Output will be saved in {output_file}\n" + colors.reset)
         subprocess.run(command, check=True)
         ran = True
     except FileNotFoundError:
