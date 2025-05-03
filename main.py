@@ -1,24 +1,26 @@
 import os
 
-from modules.portscanner import run_port_scanner
 from modules.auxx.colors import colors
+from modules.portscanner import run_port_scanner
 from modules.whoislookup import whois_lookup
 from modules.dnsenumeration import dns_enumeration
-from modules.wapiti import wapiti_scan
+from modules.whatweb import whatweb_scan
 from modules.subdomainscan import subdomain_scan
+from modules.wapiti import wapiti_scan
 
-inputs = {'1': run_port_scanner, '2': whois_lookup, '3': dns_enumeration, '4': wapiti_scan, '5': subdomain_scan}
+inputs = {'1': run_port_scanner, '2': whois_lookup, '3': dns_enumeration, '4': whatweb_scan, '5': subdomain_scan, '6': wapiti_scan}
 
 while True:
-    print(colors.fg.cyan + "1. Port Scanner")
+    print(colors.fg.cyan + "1. Port Scan")
     print("2. Whois Lookup")
     print("3. DNS Enumeration")
-    print("4. Wapiti Web Scanner")
-    print("5. Subdomain Scanner")
-    print("6. Exit")
+    print("4. WhatWeb Scan")
+    print("5. Subdomain Scan")
+    print("6. Wapiti Web Scan")
+    print("7. Exit")
     choice = input("Enter your choice: " + colors.fg.blue)
 
-    if choice in ['6', 'exit', 'quit']:
+    if choice in ['7', 'exit', 'quit']:
         print(colors.fg.yellow + "\nExiting..." + colors.reset)
         print()
         break
