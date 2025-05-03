@@ -7,13 +7,15 @@ from modules.PortScanner.main import run_port_scanner
 from modules.PortScanner.auxx.colors import colors
 from modules.whoislookup import whois_lookup
 from modules.dnsenumeration import dns_enumeration
+from modules.wapiti import wapiti_scan
 
-inputs = {'1': run_port_scanner, '2': whois_lookup, '3': dns_enumeration}
+inputs = {'1': run_port_scanner, '2': whois_lookup, '3': dns_enumeration, '4': wapiti_scan}
 
 while True:
     print(colors.fg.cyan + "1. Port Scanner")
     print("2. Whois Lookup")
     print("3. DNS Enumeration")
+    print("4. Wapiti Web Scanner")
     print("6. Exit")
     choice = input("Enter your choice: " + colors.fg.blue)
 
