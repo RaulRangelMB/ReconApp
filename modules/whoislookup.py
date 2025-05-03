@@ -3,7 +3,7 @@ from .colors import colors
 
 def whois_lookup():
     print(colors.fg.yellow + "\nLoading Whois Lookup..." + colors.reset)
-    domain = input(colors.fg.cyan + "\nEnter the domain: " + colors.fg.blue)
+    domain = input(colors.fg.cyan + "\nEnter the target domain: " + colors.fg.blue)
     try:
         w = whois.whois(domain)
 
@@ -16,6 +16,7 @@ def whois_lookup():
                     print(colors.fg.yellow + ', '.join(v) + colors.reset)
                 else:
                     print(colors.fg.yellow + str(v) + colors.reset)
+        print(colors.reset)
 
     except Exception as e:
         return {'Error': {e}}

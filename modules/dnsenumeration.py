@@ -19,7 +19,6 @@ def query_record(domain, record_type):
     return True
 
 def format_rdata(rdata, record_type):
-    """Formata os dados da resposta DNS de forma legível por tipo."""
     try:
         if record_type == "A":
             return f"IPv4 Address: {rdata.address}"
@@ -45,7 +44,7 @@ def dns_enumeration():
     record_types = ['A', 'AAAA', 'CNAME', 'MX', 'NS', 'TXT', 'SOA']
     print(colors.fg.yellow + "Record types: " + ', '.join(record_types))
 
-    domain = input(colors.fg.cyan + "\nEnter the domain: " + colors.fg.blue)
+    domain = input(colors.fg.cyan + "\nEnter the target domain: " + colors.fg.blue)
 
     for record_type in record_types:
         success = query_record(domain, record_type)
