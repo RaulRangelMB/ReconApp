@@ -9,7 +9,7 @@ def banner_grabbing(target, port):
     try:
         s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         s.settimeout(5)
-        s.connect((target, port))
+        s.connect_ex((target, port))
         banner = s.recv(1024).decode().strip()
         s.close()
 
@@ -204,109 +204,89 @@ def scan_WKP(scan_target, scan_type, filtered=False):
 
 
 def run_port_scanner():
-    print(colors.fg.yellow + "\nWelcome to Raul Rangel's Port Scanner!\n" + colors.reset)
+    print(colors.fg.yellow + "\nLoading Port Scanner...\n" + colors.reset)
 
-    operating = True
+    choice_host_network = '-1'
+    while choice_host_network not in ['1', '2']:
+        print(colors.fg.lightblue + "\n============================== Host Or Network ==============================" + colors.reset)
+        choice_host_network = input(colors.fg.cyan + "1. Host\n2. Network (requires admin priviledges)\nEnter choice between Host or Network: " + colors.fg.blue)
+        print(colors.reset)
 
-    while operating:
-        choice_host_network = '-1'
-        while choice_host_network not in ['1', '2']:
-            print(colors.fg.lightblue + "\n============================== Host Or Network ==============================" + colors.reset)
-            choice_host_network = input(colors.fg.cyan + "1. Host\n2. Network (requires admin priviledges)\nEnter choice between Host or Network: " + colors.reset)
-            print()
+        if choice_host_network == '1':
+            print(colors.fg.lightblue + "\n============================== Scan Target ==============================" + colors.reset)
+            scan_target = "-1"
+            while scan_target == "-1":
+                scan_target = input(colors.fg.cyan + "Enter the target to scan: " + colors.fg.blue)
+                print(colors.reset)
 
-            if choice_host_network == '1':
-                print(colors.fg.lightblue + "\n============================== Scan Target ==============================" + colors.reset)
-                scan_target = "-1"
-                while scan_target == "-1":
-                    scan_target = input(colors.fg.cyan + "Enter the target to scan: " + colors.reset)
-                    print()
+                try:
+                    scan_target = socket.gethostbyname(scan_target)
+                except:
+                    print(colors.fg.red + "Invalid scan target.\n" + colors.reset)
+                    scan_target = "-1"                    
 
-                    try:
-                        scan_target = socket.gethostbyname(scan_target)
-                    except:
-                        print(colors.fg.red + "Invalid scan target.\n" + colors.reset)
-                        scan_target = "-1"                    
+            print(colors.fg.yellow + f"\nScanning target: {scan_target}\n" + colors.reset)
 
-                print(colors.fg.yellow + f"\nScanning target: {scan_target}\n" + colors.reset)
+            choice_scan_type = '-1'
+            choice_scan_method = '-1'
 
-                choice_scan_type = '-1'
-                choice_scan_method = '-1'
+            while choice_scan_type not in ['1', '2']:
+                print(colors.fg.lightblue + "\n============================== Scan Type ==============================" + colors.reset)
+                choice_scan_type = input(colors.fg.cyan + "1. TCP\n2. UDP\nEnter the type of scan: " + colors.fg.blue)
+                print(colors.reset)
+                if choice_scan_type == '1':
+                    scan_type = "TCP"
+                elif choice_scan_type == '2':
+                    scan_type = "UDP"
+                else:
+                    print(colors.fg.red + "Invalid scan type.\n" + colors.reset)
 
-                while choice_scan_type not in ['1', '2']:
-                    print(colors.fg.lightblue + "\n============================== Scan Type ==============================" + colors.reset)
-                    choice_scan_type = input(colors.fg.cyan + "1. TCP\n2. UDP\nEnter the type of scan: " + colors.reset)
-                    print()
-                    if choice_scan_type == '1':
-                        scan_type = "TCP"
-                    elif choice_scan_type == '2':
-                        scan_type = "UDP"
+                while choice_scan_method not in ['1', '2', '3'] and choice_scan_type in ['1', '2']:
+                    print(colors.fg.yellow + f"Scanning type chosen: {scan_type}\n" + colors.reset)
+                    print(colors.fg.lightblue + "\n============================== Scan Method ==============================" + colors.reset)
+                    choice_scan_method = input(colors.fg.cyan + "1. Custom Port Range Scan\n2. Well Known Ports Scan (~3265 entries)\n3. Most Well Known Ports Scan (~20 entries)\nEnter the type of scan: " + colors.fg.blue)
+                    print(colors.reset)
+
+                    if choice_scan_method == '1':
+                        valid_input = False
+                        while not valid_input:
+                            try:
+                                port_range_input = input(colors.fg.cyan + "\nEnter the port range to scan \nFormat: x-y (x -> start, y -> end): " + colors.fg.blue)
+                                print(colors.reset)
+                                port_range = port_range_input.split("-")
+                                if len(port_range) != 2:
+                                    raise ValueError("Incorrect format. Please use 'x-y'.")
+                                
+                                start_port, end_port = int(port_range[0]), int(port_range[1])
+
+                                if start_port > end_port:
+                                    raise ValueError("Start port cannot be greater than end port.")
+                                
+                                port_range = range(start_port, end_port + 1)
+                                scan_range(port_range, scan_target, scan_type)
+                                valid_input = True 
+                            except ValueError as e:
+                                print(colors.fg.red + f"Invalid input: {e}. Please try again." + colors.reset)
+                    elif choice_scan_method == '2':
+                        scan_WKP(scan_target, scan_type)
+                    elif choice_scan_method == '3':
+                        scan_WKP(scan_target, scan_type, filtered=True)
                     else:
-                        print(colors.fg.red + "Invalid scan type.\n" + colors.reset)
-
-                    while choice_scan_method not in ['1', '2', '3'] and choice_scan_type in ['1', '2']:
-                        print(colors.fg.yellow + f"Scanning type chosen: {scan_type}\n" + colors.reset)
-                        print(colors.fg.lightblue + "\n============================== Scan Method ==============================" + colors.reset)
-                        choice_scan_method = input(colors.fg.cyan + "1. Custom Port Range Scan\n2. Well Known Ports Scan (~3265 entries)\n3. Most Well Known Ports Scan (~20 entries)\nEnter the type of scan: " + colors.reset)
-                        print()
-
-                        if choice_scan_method == '1':
-                            valid_input = False
-                            while not valid_input:
-                                try:
-                                    port_range_input = input(colors.fg.cyan + "\nEnter the port range to scan \nFormat: x-y (x -> start, y -> end): " + colors.reset)
-                                    print()
-                                    port_range = port_range_input.split("-")
-                                    if len(port_range) != 2:
-                                        raise ValueError("Incorrect format. Please use 'x-y'.")
-                                    
-                                    start_port, end_port = int(port_range[0]), int(port_range[1])
-
-                                    if start_port > end_port:
-                                        raise ValueError("Start port cannot be greater than end port.")
-                                    
-                                    port_range = range(start_port, end_port + 1)
-                                    scan_range(port_range, scan_target, scan_type)
-                                    valid_input = True 
-                                except ValueError as e:
-                                    print(colors.fg.red + f"Invalid input: {e}. Please try again." + colors.reset)
-                        elif choice_scan_method == '2':
-                            scan_WKP(scan_target, scan_type)
-                        elif choice_scan_method == '3':
-                            scan_WKP(scan_target, scan_type, filtered=True)
-                        else:
-                            print(colors.fg.red + "Invalid choice.\n" + colors.reset)
+                        print(colors.fg.red + "Invalid choice.\n" + colors.reset)
+        
+        elif choice_host_network == '2':
+            print(colors.fg.lightblue + "\n============================== Scan Network ==============================" + colors.reset)
             
-            elif choice_host_network == '2':
-                print(colors.fg.lightblue + "\n============================== Scan Network ==============================" + colors.reset)
-                
-                network = "-1"
-                while network == "-1":
-                    network = input(colors.fg.cyan + "Enter the network to scan: " + colors.reset)
-                    print()
+            network = "-1"
+            while network == "-1":
+                network = input(colors.fg.cyan + "Enter the network to scan: " + colors.fg.blue)
+                print(colors.reset)
 
-                    try:
-                        scan_network(network)
-                    except:
-                        print(colors.fg.red + "Invalid scan target.\n" + colors.reset)
-                        network = "-1"
-                
-
-        choice_continue = '-1'
-        while choice_continue not in ['1', '2']:
-            print(colors.fg.lightblue + "\n============================== Continue or Exit ==============================" + colors.reset)
-            choice_continue = input(colors.fg.cyan + "1. Continue\n2. Exit\nEnter your choice: " + colors.reset)
-            print()
-            if choice_continue == '2':
-                operating = False
-            elif choice_continue == '1':
-                choice_scan_type = '-1'
-                choice_scan_method = '-1'
-            else:
-                print(colors.fg.red + "Invalid choice.\n" + colors.reset)
-
-    print(colors.fg.yellow + "Exiting..." + colors.reset)
-    print()
+                try:
+                    scan_network(network)
+                except:
+                    print(colors.fg.red + "Invalid scan target.\n" + colors.reset)
+                    network = "-1"
 
 if __name__ == "__main__":
     run_port_scanner()
