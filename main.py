@@ -1,10 +1,7 @@
 import os
-import sys
 
-sys.path.append(os.path.join(os.path.dirname(__file__), 'PortScanner'))
-
-from modules.PortScanner.main import run_port_scanner
-from modules.PortScanner.auxx.colors import colors
+from modules.portscanner import run_port_scanner
+from modules.auxx.colors import colors
 from modules.whoislookup import whois_lookup
 from modules.dnsenumeration import dns_enumeration
 from modules.wapiti import wapiti_scan

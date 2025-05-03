@@ -1,5 +1,5 @@
 import dns.resolver
-from .colors import colors
+from .auxx.colors import colors
 
 def query_record(domain, record_type):
     print(colors.fg.blue + f"\n{record_type}" + colors.fg.cyan + f" records for " + colors.fg.blue + f"{domain}")

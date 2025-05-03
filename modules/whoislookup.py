@@ -1,5 +1,5 @@
 import whois
-from .colors import colors
+from .auxx.colors import colors
 
 def whois_lookup():
     print(colors.fg.yellow + "\nLoading Whois Lookup..." + colors.reset)

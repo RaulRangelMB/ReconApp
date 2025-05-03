@@ -1,6 +1,6 @@
 import socket
 import concurrent.futures
-from .colors import colors
+from .auxx.colors import colors
 
 COMMON_SUBDOMAINS = [
     "www", "mail", "ftp", "webmail", "admin", "blog", 
