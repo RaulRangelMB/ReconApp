@@ -11,7 +11,8 @@ from modules.wapiti import wapiti_scan
 inputs = {'1': run_port_scanner, '2': whois_lookup, '3': dns_enumeration, '4': whatweb_scan, '5': subdomain_scan, '6': wapiti_scan}
 
 while True:
-    print(colors.fg.cyan + "1. Port Scan")
+    print(colors.fg.cyan + "\nWelcome to Raul Rangel's ReconApp!\n")
+    print("1. Port Scan")
     print("2. Whois Lookup")
     print("3. DNS Enumeration")
     print("4. WhatWeb Scan")
