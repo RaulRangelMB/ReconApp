@@ -4,6 +4,7 @@ from datetime import datetime
 from .auxx.colors import colors
 
 def wapiti_scan():
+    """Realiza um scan de vulnerabilidades na web usando o Wapiti (requer Wapiti instalado)"""
     print(colors.fg.yellow + "\nLoading Wapiti Web Scanner...\n")
     target = input(colors.fg.cyan + "Enter the target URL: " + colors.fg.blue)
     

@@ -2,6 +2,7 @@ import subprocess
 from .auxx.colors import colors
 
 def whatweb_scan():
+    """Realiza um scan de informações sobre o site usando o WhatWeb (requer WhatWeb instalado)"""
     print(colors.fg.yellow + "\nLoading WhatWeb Scanner...\n")
     target = input(colors.fg.cyan + "Enter the target URL: " + colors.fg.blue)
 

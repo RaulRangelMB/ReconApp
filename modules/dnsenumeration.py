@@ -2,6 +2,7 @@ import dns.resolver
 from .auxx.colors import colors
 
 def query_record(domain, record_type):
+    """Fazer query de um tipo de registro DNS específico para o domínio fornecido."""
     print(colors.fg.blue + f"\n{record_type}" + colors.fg.cyan + f" records for " + colors.fg.blue + f"{domain}")
     
     try:
@@ -19,6 +20,7 @@ def query_record(domain, record_type):
     return True
 
 def format_rdata(rdata, record_type):
+    """Formatar a resposta do registro DNS."""
     try:
         if record_type == "A":
             return f"IPv4 Address: {rdata.address}"
@@ -40,6 +42,7 @@ def format_rdata(rdata, record_type):
         return f"Could not parse record: {str(e)}"
 
 def dns_enumeration():
+    """Função principal para executar a enumeração DNS."""
     print(colors.fg.yellow + "\nLoading DNS Enumeration..." + colors.reset)
     record_types = ['A', 'AAAA', 'CNAME', 'MX', 'NS', 'TXT', 'SOA']
     print(colors.fg.yellow + "Record types: " + ', '.join(record_types))

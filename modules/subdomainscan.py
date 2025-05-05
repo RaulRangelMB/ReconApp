@@ -13,6 +13,7 @@ COMMON_SUBDOMAINS = [
 ]
 
 def resolve_subdomain(sub, domain):
+    """Resolver o subdomínio para obter o endereço IP."""
     full_domain = f"{sub}.{domain}"
     try:
         ip = socket.gethostbyname(full_domain)
@@ -21,6 +22,7 @@ def resolve_subdomain(sub, domain):
         return None
 
 def subdomain_scan():
+    """função principal para executar a varredura de subdomínios"""
     print(colors.fg.yellow + "Loading Subdomain Scanner...\n")
 
     print("Subdomains to scan: " + ', '.join(COMMON_SUBDOMAINS) + '.\n')

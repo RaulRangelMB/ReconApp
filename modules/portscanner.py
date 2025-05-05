@@ -6,6 +6,7 @@ from .auxx.WKP import WKP_TCP, WKP_UDP
 from .auxx.WKP_filtered import WKP_TCP_FILTERED, WKP_UDP_FILTERED
 
 def banner_grabbing(target, port):
+    """"Tenta capturar o banner de um serviço em execução na porta especificada"""
     try:
         s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         s.settimeout(5)
@@ -26,6 +27,7 @@ def banner_grabbing(target, port):
         return None
 
 def scan_network(network):
+    """Função para escanear uma rede e descobrir dispositivos conectados"""
     if '/' not in network:
         print(colors.fg.red + "Invalid network format. Please use CIDR notation.\n" + colors.reset)
         return
@@ -42,6 +44,7 @@ def scan_network(network):
     print()
 
 def scan_range(port_range, scan_target, scan_type):
+    """Função para escanear uma faixa de portas em um alvo específico"""
 
     print(colors.fg.yellow + f"Starting Scan...\n" + colors.reset)
 
@@ -129,6 +132,7 @@ def scan_range(port_range, scan_target, scan_type):
         print(colors.fg.red + "No banners received." + colors.reset)
 
 def scan_WKP(scan_target, scan_type, filtered=False):
+    """Função para escanear as portas mais conhecidas em um alvo específico"""
     print(colors.fg.yellow + f"Starting Scan...\n" + colors.reset)
 
     WKP = (WKP_TCP if not filtered else WKP_TCP_FILTERED) if scan_type == "TCP" else (WKP_UDP if not filtered else WKP_UDP_FILTERED)
@@ -204,6 +208,7 @@ def scan_WKP(scan_target, scan_type, filtered=False):
 
 
 def run_port_scanner():
+    """Função principal para executar o scanner de portas"""
     print(colors.fg.yellow + "\nLoading Port Scanner...\n" + colors.reset)
 
     choice_host_network = '-1'
