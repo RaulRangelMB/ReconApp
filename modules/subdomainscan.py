@@ -27,7 +27,7 @@ def subdomain_scan():
 
     print("Subdomains to scan: " + ', '.join(COMMON_SUBDOMAINS) + '.\n')
 
-    domain = input(colors.fg.cyan + "Enter the target domain (e.g., example.com): " + colors.fg.blue)
+    domain = input(colors.fg.cyan + "Enter the target domain: " + colors.fg.blue)
 
     print(colors.fg.yellow + "\nScanning for common subdomains...\n" + colors.reset)
 
